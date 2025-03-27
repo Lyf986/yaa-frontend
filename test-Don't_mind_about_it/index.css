@@ -1,0 +1,74 @@
+.container{
+    background: green;
+
+}
+.sidebar{
+    width: 20%;
+    background: lightblue;
+    padding: 10px 0px;
+}
+.conversation{
+    width: 80%;
+    background: grey;
+}
+.layout{
+    width: 80%;
+    min-height: 500px;
+    background: #fff;
+    border-radius:10px;
+    margin:0 auto;
+    box-shadow:0 0 20px rgba(0,0,0,0.05);
+    padding:30px;
+    /*grid布局 两端对齐,最后一行左对齐 */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap:30px;
+}
+.layout .box{
+    height: 200px;
+    background:#FFCF7F;
+    border-radius: 8px;
+    padding:10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ■#fff;
+}
+.sidebar-header{
+    padding: 15px;
+    height: 10%;
+    background: lightgray;
+    border-radius: 50px;
+    img{
+        display: inline-block;
+        width: 20%;
+        padding-left: 10%;
+        vertical-align: middle;
+    }
+    span{
+        display: inline-block;
+        font-size: 200%;
+        padding-left: 10%;
+        font-family: "Lobster 1.4";
+        vertical-align: baseline;
+    }
+}
+.sidebar-conversation-list{
+    height: 70%;
+}
+.sidebar-bottom{
+    height: 20%;
+}
+.sidebar-history-list{
+
+}
+
+.btn{
+    height: 25px;
+    border: 0px;
+    border-radius: 7px;
+}
+.input-text{
+    height: 100px;
+    border-radius: 10px;
+}
