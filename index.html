@@ -2,31 +2,24 @@
 <html>
     <head>
         <title>Title</title>
-        <link rel="stylesheet" type="text/css" href="index.css">
+        <link rel="stylesheet" href="index.css">
+        <!-- Boxicons CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
         <meta charset="utf-8">
 
     </head>
     <body>
         <div class="container">
-            <div class="conversation">
-                <div class="conversation-title">
-                    对话标题
-                </div>
-                <div class="conversation-content">
-                    对话内容
-                </div>
-                <div class="conversation-input">
-                    <input class="input-text" type="text" placeholder="输入消息……">
-                    <button class="btn" id="sendMessage" onclick="">发送</button>
-                </div>
-            </div>
+            <!-- 侧边栏(左侧) -->
             <div class="sidebar">
+                <!-- 侧边栏顶部 -->
                 <div class="sidebar-header">
-                    <img src="204837535.png">
-                    <span>yaa</span>
+                    <img src="Byte-Tea-Logo/Byte-Tea.svg">
+                    <span >yaa</span>
                 </div>
-                <div class="sidebar-conversation-list">
-                    <div class="sidebar-history-list">
+                <!-- 侧边栏中间部分 -->
+                <div class="sidebar-middle">
+                    <div class="sidebar-middle-history-list">
                         <ul>
                             <li>
                                 <button class="btn" type="button" onclick="">conver1</button>
@@ -40,6 +33,7 @@
                         开始新对话
                     </button>
                 </div>
+                <!-- 侧边栏底部 -->
                 <div class="sidebar-bottom">
                     <span>选择模型</span>
                     <select class="btn" id="model-select">
@@ -51,7 +45,20 @@
                     </select>
                 </div>
             </div>
-            
+            <!-- 主体对话部分(右侧) -->
+            <div class="conversation">
+                <!-- 对话标题 -->
+                <div class="conversation-title">
+                    对话标题
+                </div>
+                <div class="conversation-content">
+                    对话内容
+                </div>
+                <div class="conversation-input">
+                    <input class="input-text" type="text" placeholder="输入消息……">
+                    <button class="btn" id="btn-sendMessage" onclick="">发送</button>
+                </div>
+            </div>
         </div>
     </body>
 </html>
