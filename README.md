@@ -2,6 +2,8 @@
 
 在 yaa 的前端部分合并到贮藏库前用于临时存储。
 
+[在线访问本项目](https://byte-tea.github.io/yaa-frontend/)
+
 ## 推荐的开发环境
 
 ### CDN
