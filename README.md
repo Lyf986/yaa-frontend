@@ -13,3 +13,7 @@
 ### CSS HTML 框架
 
 [Bootstrap 前端开发框架](https://www.bootcss.com/)
+
+### 打包成软件
+
+[Pake](https://github.com/tw93/Pake/issues/575)
