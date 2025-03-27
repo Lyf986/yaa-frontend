@@ -1,0 +1,55 @@
+.container{
+    background: green;
+
+}
+.sidebar{
+    height: 100%;
+    width: 24.5%;
+    float: left;
+    background: lightblue;
+    padding: 10px 0px;
+}
+.conversation{
+    height: 100%;
+    width: 74.5%;
+    float: right;
+    background: grey;
+}
+.sidebar-header{
+    padding: 15px;
+    height: 10%;
+    background: lightgray;
+    border-radius: 50px;
+    img{
+        display: inline-block;
+        height: 100%;
+        padding-left: 10%;
+        vertical-align: middle;
+    }
+    span{
+        display: inline-block;
+        height: 100%;
+        padding-left: 10%;
+        font-family: "Lobster 1.4";
+        vertical-align: baseline;
+    }
+}
+.sidebar-conversation-list{
+    height: 70%;
+}
+.sidebar-bottom{
+    height: 20%;
+}
+.sidebar-history-list{
+
+}
+
+.btn{
+    height: 25px;
+    border: 0px;
+    border-radius: 7px;
+}
+.input-text{
+    height: 100px;
+    border-radius: 10px;
+}
