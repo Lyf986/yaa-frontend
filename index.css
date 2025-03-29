@@ -29,16 +29,17 @@
 
 #conversation{
     /* 对话主体部分(右侧) */
-    position: fixed;
+    position: absolute;
     top: 0;
     left: var(--sidebar-expanded-width);
     right: 0;
     height: 100vh;
     float: right;
-    padding: 1vh 1vw;
+    padding: 20px;
     background: grey;
     transition: all 0.25s ease-in-out;
-    left: var(--sidebar-expanded-width);
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 #conversation:hover{
     transition: all 0.25s ease-in-out;
@@ -181,285 +182,360 @@
 }
 
 /* === 基础样式 === */
-body {
-    overflow-x: hidden;
-    font-size: var(--font-size-base);
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+/* 
+ * 全局页面基础样式
+ * 设置页面基础字体、边距和滚动行为
+ */
+ body {
+    overflow-x: hidden; /* 禁止水平滚动 */
+    font-size: var(--font-size-base); /* 使用CSS变量设置基础字体大小 */
+    margin: 0; /* 移除默认外边距 */
+    padding: 0; /* 移除默认内边距 */
+    /* 设置字体栈，优先使用系统字体 */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, 
+                 Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* === 主侧边栏样式 === */
+/* 
+ * === 主侧边栏样式 ===
+ * 定义侧边栏的基本布局和行为
+ */
 #sidebar {
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: var(--sidebar-expanded-width);
-    background-color: var(--primary-color);
-    color: white;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+    height: 100vh; /* 侧边栏高度占满整个视口 */
+    position: fixed; /* 固定定位 */
+    left: 0; /* 固定在左侧 */
+    top: 0; /* 固定在顶部 */
+    width: var(--sidebar-expanded-width); /* 使用CSS变量设置展开宽度 */
+    background-color: var(--primary-color); /* 使用CSS变量设置背景色 */
+    color: white; /* 文字颜色为白色 */
+    transition: all 0.3s ease; /* 所有属性变化添加0.3秒的缓动过渡效果 */
+    z-index: 1000; /* 设置较高的堆叠顺序 */
+    display: flex; /* 使用Flex布局 */
+    flex-direction: column; /* 垂直方向排列子元素 */
+    box-sizing: border-box; /* 盒模型计算方式，包含内边距和边框 */
 }
 
+/* 侧边栏折叠状态下的样式 */
 #sidebar.collapsed {
-    width: var(--sidebar-collapsed-width);
+    width: var(--sidebar-collapsed-width); /* 使用CSS变量设置折叠宽度 */
 }
 
-/* === 顶部区域样式 === */
+/* 
+ * === 顶部区域样式 ===
+ * 侧边栏顶部区域包含用户头像和名称
+ */
 .sidebar-top {
-    height: var(--top-section-height);
-    padding: 20px 15px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    border-bottom: 1px solid #4b545c;
+    height: var(--top-section-height); /* 使用CSS变量设置高度 */
+    padding: 20px 15px; /* 内边距 */
+    position: relative; /* 相对定位，为子元素绝对定位提供参考 */
+    display: flex; /* 使用Flex布局 */
+    align-items: center; /* 垂直居中 */
+    box-sizing: border-box; /* 盒模型计算方式 */
+    border-bottom: 1px solid #4b545c; /* 底部边框 */
 }
 
+/* 头像容器样式 */
 .avatar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
+    display: flex; /* 使用Flex布局 */
+    align-items: center; /* 垂直居中 */
+    width: 100%; /* 宽度占满父容器 */
+    position: relative; /* 相对定位 */
 }
 
+/* 用户头像样式 */
 .user-avatar {
-    width: var(--avatar-size);
-    height: var(--avatar-size);
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    display: block;
-    object-fit: contain;
-    cursor: pointer;
-    flex-shrink: 0;
+    width: var(--avatar-size); /* 使用CSS变量设置头像大小 */
+    height: var(--avatar-size); /* 使用CSS变量设置头像大小 */
+    border-radius: 50%; /* 圆形头像 */
+    transition: all 0.3s ease; /* 过渡效果 */
+    display: block; /* 块级元素 */
+    object-fit: contain; /* 图片适应方式 */
+    cursor: pointer; /* 鼠标指针样式 */
+    flex-shrink: 0; /* 防止头像被压缩 */
 }
 
+/* 折叠状态下头像大小 */
 #sidebar.collapsed .user-avatar {
-    width: var(--avatar-size-collapsed);
-    height: var(--avatar-size-collapsed);
+    width: var(--avatar-size-collapsed); /* 使用CSS变量设置折叠状态头像大小 */
+    height: var(--avatar-size-collapsed); /* 使用CSS变量设置折叠状态头像大小 */
 }
 
+/* 用户名样式 */
 .username {
-    font-size: 0.95em;
-    margin-left: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: all 0.3s ease;
-    flex-grow: 1;
+    font-size: 0.95em; /* 字体大小 */
+    margin-left: 15px; /* 左边距 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden; /* 溢出隐藏 */
+    text-overflow: ellipsis; /* 文本溢出显示省略号 */
+    transition: all 0.3s ease; /* 过渡效果 */
+    flex-grow: 1; /* 占据剩余空间 */
 }
 
+/* 折叠状态下隐藏用户名 */
 #sidebar.collapsed .username {
-    display: none;
+    display: none; /* 不显示 */
 }
 
+/* 折叠/展开按钮样式 */
 .toggle-btn {
-    background: none;
-    border: none;
-    color: rgb(36, 234, 161);
-    font-size: 1em;
-    cursor: pointer;
-    width: var(--toggle-btn-size);
-    height: var(--toggle-btn-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    position: absolute;
-    right: var(--toggle-btn-offset);
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1001;
+    background: none; /* 无背景 */
+    border: none; /* 无边框 */
+    color: rgb(36, 234, 161); /* 按钮颜色 */
+    font-size: 1em; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针样式 */
+    width: var(--toggle-btn-size); /* 使用CSS变量设置按钮大小 */
+    height: var(--toggle-btn-size); /* 使用CSS变量设置按钮大小 */
+    display: flex; /* 使用Flex布局 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    transition: all 0.3s ease; /* 过渡效果 */
+    position: absolute; /* 绝对定位 */
+    right: var(--toggle-btn-offset); /* 使用CSS变量设置右侧偏移 */
+    top: 50%; /* 垂直居中 */
+    transform: translateY(-50%); /* 垂直居中 */
+    z-index: 1001; /* 较高的堆叠顺序 */
 }
 
+/* 折叠状态下按钮位置调整 */
 #sidebar.collapsed .toggle-btn {
-    right: calc(-1 * var(--toggle-btn-size) - var(--toggle-btn-offset));
+    right: calc(-1 * var(--toggle-btn-size) - var(--toggle-btn-offset)); /* 计算按钮位置 */
 }
 
+/* 展开状态下图标旋转 */
 #sidebar:not(.collapsed) .toggle-btn i {
-    transform: rotate(0deg);
+    transform: rotate(0deg); /* 不旋转 */
 }
 
+/* 折叠状态下图标旋转 */
 #sidebar.collapsed .toggle-btn i {
-    transform: rotate(180deg);
+    transform: rotate(180deg); /* 180度旋转 */
 }
 
-/* === 底部区域样式 === */
+/* 
+ * === 底部区域样式 ===
+ * 侧边栏底部区域包含模型选择和设置按钮
+ */
 .sidebar-bottom {
-    height: var(--bottom-section-height);
-    margin-top: auto;
-    border-top: 1px solid #4b545c;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 15px;
+    height: var(--bottom-section-height); /* 使用CSS变量设置高度 */
+    margin-top: auto; /* 自动上边距，将元素推到底部 */
+    border-top: 1px solid #4b545c; /* 顶部边框 */
+    display: flex; /* 使用Flex布局 */
+    flex-direction: column; /* 垂直方向排列子元素 */
+    box-sizing: border-box; /* 盒模型计算方式 */
+    padding: 15px; /* 内边距 */
 }
 
-/* 模型选择区域 */
+/* 模型选择区域样式 */
 .model-section {
-    margin-bottom: 15px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-sizing: border-box;
-    overflow: hidden;
+    margin-bottom: 15px; /* 下边距 */
+    padding: 5px; /* 内边距 */
+    display: flex; /* 使用Flex布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 子元素间距 */
+    box-sizing: border-box; /* 盒模型计算方式 */
+    overflow: hidden; /* 溢出隐藏 */
 }
 
+/* 模型标签样式 */
 .model-label {
-    color: var(--text-light);
-    font-size: 0.85em;
-    white-space: nowrap;
-    flex-shrink: 0;
+    color: var(--text-light); /* 使用CSS变量设置文字颜色 */
+    font-size: 0.85em; /* 字体大小 */
+    white-space: nowrap; /* 不换行 */
+    flex-shrink: 0; /* 防止被压缩 */
 }
 
+/* 模型选择容器样式 */
 .model-select-container {
-    flex: 1;
-    min-width: 0;
-    position: relative;
+    flex: 1; /* 占据剩余空间 */
+    min-width: 0; /* 最小宽度为0，防止溢出 */
+    position: relative; /* 相对定位 */
 }
 
+/* 模型选择下拉框样式 */
 .model-select {
-    width: 100%;
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #495057;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 0.85em;
-    cursor: pointer;
-    box-sizing: border-box;
-    appearance: none;
+    width: 100%; /* 宽度占满父容器 */
+    padding: 6px 10px; /* 内边距 */
+    border-radius: 4px; /* 圆角 */
+    border: 1px solid #495057; /* 边框 */
+    background-color: var(--primary-color); /* 使用CSS变量设置背景色 */
+    color: white; /* 文字颜色 */
+    font-size: 0.85em; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针样式 */
+    box-sizing: border-box; /* 盒模型计算方式 */
+    appearance: none; /* 移除默认样式 */
 }
 
+/* 模型选择框获取焦点时的样式 */
 .model-select:focus {
-    outline: none;
-    border-color: #6c757d;
+    outline: none; /* 移除默认轮廓 */
+    border-color: #6c757d; /* 边框颜色 */
 }
 
+/* 已选模型显示样式 */
 .selected-model {
-    display: none;
-    font-size: 0.75em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white;
-    text-align: center;
-    width: 100%;
+    display: none; /* 默认不显示 */
+    font-size: 0.75em; /* 字体大小 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden; /* 溢出隐藏 */
+    text-overflow: ellipsis; /* 文本溢出显示省略号 */
+    color: white; /* 文字颜色 */
+    text-align: center; /* 文字居中 */
+    width: 100%; /* 宽度占满父容器 */
 }
 
-/* 设置按钮区域 */
+/* 设置按钮区域样式 */
 .settings-section {
-    padding: 5px;
-    box-sizing: border-box;
+    padding: 5px; /* 内边距 */
+    box-sizing: border-box; /* 盒模型计算方式 */
 }
 
+/* 设置按钮样式 */
 .settings-btn {
-    width: 100%;
-    background: none;
-    border: none;
-    color: var(--text-light);
-    padding: 8px 10px;
-    text-align: left;
-    cursor: pointer;
-    font-size: 0.85em;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s ease;
-    border-radius: 4px;
+    width: 100%; /* 宽度占满父容器 */
+    background: none; /* 无背景 */
+    border: none; /* 无边框 */
+    color: var(--text-light); /* 使用CSS变量设置文字颜色 */
+    padding: 8px 10px; /* 内边距 */
+    text-align: left; /* 文字左对齐 */
+    cursor: pointer; /* 鼠标指针样式 */
+    font-size: 0.85em; /* 字体大小 */
+    display: flex; /* 使用Flex布局 */
+    align-items: center; /* 垂直居中 */
+    transition: all 0.2s ease; /* 过渡效果 */
+    border-radius: 4px; /* 圆角 */
 }
 
+/* 设置按钮悬停状态 */
 .settings-btn:hover {
-    color: rgb(255, 255, 255);
-    background-color: var(--secondary-color);
+    color: rgb(255, 255, 255); /* 文字颜色 */
+    background-color: var(--secondary-color); /* 使用CSS变量设置背景色 */
 }
 
+/* 设置按钮图标样式 */
 .settings-btn i {
-    margin-right: 10px;
-    font-size: 0.9em;
+    margin-right: 10px; /* 右边距 */
+    font-size: 0.9em; /* 字体大小 */
 }
 
-/* 收缩状态下的样式 */
+/* 
+ * 侧边栏折叠状态下的特殊样式
+ */
+
+/* 折叠状态下模型选择区域调整 */
 #sidebar.collapsed .model-section,
 #sidebar.collapsed .settings-section {
-    justify-content: center;
-    padding: 5px 0;
+    justify-content: center; /* 水平居中 */
+    padding: 5px 0; /* 内边距调整 */
 }
 
+/* 折叠状态下隐藏模型标签、选择器和设置按钮文字 */
 #sidebar.collapsed .model-label,
 #sidebar.collapsed .model-select-container,
 #sidebar.collapsed .settings-btn span {
-    display: none;
+    display: none; /* 不显示 */
 }
 
+/* 折叠状态下显示已选模型 */
 #sidebar.collapsed .selected-model {
-    display: block;
+    display: block; /* 块级显示 */
 }
 
-/* === 设置面板样式 === */
+/* 
+ * === 设置面板样式 ===
+ * 定义设置面板的布局和行为
+ */
 #settings-panel {
-    position: fixed;
-    left: var(--sidebar-expanded-width);
-    top: 0;
-    width: var(--settings-panel-width);
-    height: 100vh;
-    width: 40vh;
-    background-color: #f8f9fa;
-    transition: all 0.3s ease;
-    z-index: 999;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transform: translateX(-100%);
-    box-sizing: border-box;
+    position: fixed; /* 固定定位 */
+    left: var(--sidebar-expanded-width); /* 左侧位置 */
+    top: 0; /* 顶部位置 */
+    width: var(--settings-panel-width); /* 使用CSS变量设置宽度 */
+    height: 100vh; /* 高度占满视口 */
+    width: 40vh; /* 宽度 */
+    background-color: #f8f9fa; /* 背景色 */
+    transition: all 0.3s ease; /* 过渡效果 */
+    z-index: 999; /* 堆叠顺序 */
+    padding: 20px; /* 内边距 */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* 阴影效果 */
+    transform: translateX(-100%); /* 初始状态隐藏 */
+    box-sizing: border-box; /* 盒模型计算方式 */
 }
 
+/* 侧边栏折叠状态下设置面板位置调整 */
 #sidebar.collapsed + #settings-panel {
+    left: var(--sidebar-collapsed-width); /* 左侧位置调整 */
+}
+
+/* 显示设置面板时的状态 */
+#settings-panel.show {
+    transform: translateX(0); /* 显示面板 */
+}
+/* 侧边栏折叠时的主内容区位置 */
+#sidebar.collapsed + #settings-panel + #conversation,
+#sidebar.collapsed + #conversation {
     left: var(--sidebar-collapsed-width);
 }
 
-#settings-panel.show {
-    transform: translateX(0);
+/* 设置面板显示时的主内容区位置 */
+#settings-panel.show + #conversation {
+    left: calc(var(--sidebar-collapsed-width) + var(--settings-panel-width));
 }
+/* 
+ * === 响应式设计 ===
+ * 针对不同屏幕尺寸的样式调整
+ */
 
-/* === 响应式设计 === */
+/* 中等屏幕尺寸 (最大768px) */
 @media (max-width: 768px) {
+    /* 调整CSS变量值 */
     :root {
-        --sidebar-expanded-width: 30%;
-        --sidebar-collapsed-width: 100px;
-        --settings-panel-width: 30%;
-        --toggle-btn-offset: 10px;
+        --sidebar-expanded-width: 30%; /* 侧边栏展开宽度 */
+        --sidebar-collapsed-width: 100px; /* 侧边栏折叠宽度 */
+        --settings-panel-width: 30%; /* 设置面板宽度 */
+        --toggle-btn-offset: 10px; /* 切换按钮偏移 */
     }
     
+    /* 侧边栏调整 */
     #sidebar {
-        z-index: 1001;
-        
+        z-index: 1001; /* 提高堆叠顺序 */
     }
     
+    /* 折叠状态侧边栏宽度 */
     #sidebar.collapsed {
         width: var(--sidebar-collapsed-width);
     }
     
-    #main-content {
-        margin-left: var(--sidebar-collapsed-width);
-    }
+    /* 主内容区域左边距调整 */
     
+        #conversation {
+            left: var(--sidebar-collapsed-width);
+        }
+        
+        #sidebar:not(.collapsed) + #settings-panel + #conversation,
+        #sidebar:not(.collapsed) + #conversation {
+            left: var(--sidebar-expanded-width);
+        }
+        
+        #settings-panel.show + #conversation {
+            left: calc(var(--sidebar-collapsed-width) + var(--settings-panel-width));
+        }
+    
+    /* 显示设置面板时的堆叠顺序 */
     #settings-panel.show {
         z-index: 1002;
     }
 }
 
+/* 小屏幕尺寸 (最大480px) */
 @media (max-width: 480px) {
+    /* 调整CSS变量值 */
     :root {
-        --sidebar-expanded-width: 90%;
-        --sidebar-collapsed-width: 50px;
-        --avatar-size-collapsed: 25px;
-        --toggle-btn-offset: 8px;
+        --sidebar-expanded-width: 50%; /* 侧边栏展开宽度 */
+        --sidebar-collapsed-width: 50px; /* 侧边栏折叠宽度 */
+        --avatar-size-collapsed: 25px; /* 折叠状态头像大小 */
+        --toggle-btn-offset: 8px; /* 切换按钮偏移 */
     }
     
+    /* 顶部区域内边距调整 */
     .sidebar-top {
         padding: 15px 10px;
     }

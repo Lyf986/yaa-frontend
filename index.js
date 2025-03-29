@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
     settingsToggle.addEventListener('click', function(e) {
         // 如果侧边栏是展开状态，先折叠
         if (!sidebar.classList.contains('collapsed')) {
-            toggleSidebar();
+            sidebar.classList.add('collapsed');
+            localStorage.setItem('sidebarCollapsed', 'true');
         }
         
         // 切换设置面板显示状态
