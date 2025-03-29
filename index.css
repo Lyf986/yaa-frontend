@@ -27,44 +27,59 @@
     background: green;
 }
 
-.conversation{
+#conversation{
     /* 对话主体部分(右侧) */
     position: fixed;
     top: 0;
+    left: var(--sidebar-expanded-width);
     right: 0;
-    height: 100%;
-    width: 80%;
+    height: 100vh;
     float: right;
-    padding: 10px 10px;
+    padding: 1vh 1vw;
     background: grey;
+    transition: all 0.25s ease-in-out;
+    left: var(--sidebar-expanded-width);
+}
+#conversation:hover{
+    transition: all 0.25s ease-in-out;
+    left: var(--sidebar-collapsed-width);
 }
 
 .conversation__title{
     /* 对话标题 */
+    padding: 0.5vh 1vw;
     height: 10%;
+    font-size: min(5vh,5vw);
     background: white;
     text-align: center;
 }
 .conversation__content{
     /* 对话内容 */
-    display: grid;
+    display: flex;
+    flex-direction: column;
     height: 70%;
-    padding: 5%;
+    padding: 2vh 1vw;
     background: darkgray;
     overflow: auto;
 }
 
 .msg__system{
     /* 系统提示消息 */
-    height: 2em;
+    padding: 0.5vh 1vw;
     text-align: center;
+    border-radius: 5px;
+    margin: 5px 0;
     background: lightgray;
+}
+.msg__system__content{
+    /* 系统提示消息 */
 }
 
 .msg__ai{
     /* ai消息(包括头像和主要部分) */
     /* 居左 */
     float: left;
+    margin: 5px 0;
 }
 .msg__ai__avatar{
     /* ai头像 */
@@ -79,11 +94,14 @@
     /* ai名称 */
     text-align: left;
 }
+
 .msg__ai__main__content{
     /* ai内容气泡 */
+    padding: 5px 5px;
     background: white;
     border-radius: 5px;
 }
+
 .msg__ai__main__content__text{
     /* ai对话文字内容 */
 }
@@ -92,6 +110,7 @@
     /* 用户消息(包括头像和主要部分) */
     /* 居右 */
     float: right;
+    margin: 5px 0;
 }
 .msg__user__avatar{
     /* 用户头像 */
@@ -108,7 +127,7 @@
 }
 .msg__user__main__content{
     /* 用户内容气泡 */
-
+    padding: 5px 5px;
     background: white;
     border-radius: 5px;
 }
@@ -126,22 +145,24 @@
     /* 按钮(一般情况) */
     height: 25px;
     border: 0px;
-    padding: 10%*2;
+    padding: 10% 10%;
     border-radius: 7px;
 }
 #btn__sendMessage{
     /* 发送消息按钮 */
     position: relative;
     float: right;
-    height: 100px;
+    height: 15vh;
     width: 10%;
+    padding: 0;
 }
 .conversation__input__textarea{
     /* 消息输入框 */
-    height: 100px;
+    height: 15vh;
     width: 90%;
     border-radius: 10px;
 }
+
 /* === CSS变量定义 === */
 :root {
     --sidebar-expanded-width: 200px;   /* 侧边栏展开宽度 */
