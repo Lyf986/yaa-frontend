@@ -144,275 +144,303 @@
 }
 /* === CSS变量定义 === */
 :root {
-    --sidebar-expanded-width: 20%;    /* 侧边栏展开宽度 */
-    --sidebar-collapsed-width: 5%;    /* 侧边栏收缩宽度 */
-    --settings-panel-width: 20%;      /* 设置面板宽度 */
-    --font-size-base: 0.8rem;        /* 基础字体大小 */
-    --primary-color: #343a40;         /* 主色 */
-    --secondary-color: #495057;       /* 次色 */
+    --sidebar-expanded-width: 200px;   /* 侧边栏展开宽度 */
+    --sidebar-collapsed-width: 60px;   /* 侧边栏收缩宽度 */
+    --settings-panel-width: 250px;     /* 设置面板宽度 */
+    --font-size-base: 14px;            /* 基础字体大小 */
+    --primary-color: #343a40;          /* 主色 */
+    --secondary-color: #495057;        /* 次色 */
     --text-light: rgba(255, 255, 255, 0.8); /* 浅色文字 */
+    --top-section-height: 80px;        /* 顶部区域高度 */
+    --bottom-section-height: 120px;    /* 底部区域高度 */
+    --avatar-size: 40px;               /* 头像大小 */
+    --avatar-size-collapsed: 30px;     /* 收缩时头像大小 */
+    --toggle-btn-size: 24px;           /* 切换按钮大小 */
+    --toggle-btn-offset: 15px;         /* 切换按钮偏移量 */
 }
 
 /* === 基础样式 === */
 body {
-    overflow-x: hidden;               /* 隐藏水平滚动条 */
-    font-size: var(--font-size-base); /* 使用基础字体大小 */
+    overflow-x: hidden;
+    font-size: var(--font-size-base);
     margin: 0;
     padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* === 主侧边栏样式 === */
 #sidebar {
-    height: 100vh;                    /* 全屏高度 */
-    position: fixed;                  /* 固定定位 */
+    height: 100vh;
+    position: fixed;
     left: 0;
     top: 0;
-    width: var(--sidebar-expanded-width); /* 默认展开宽度 */
-    background-color: var(--primary-color); /* 深色背景 */
-    color: white;                     /* 文字颜色 */
-    transition: all 0.3s;             /* 过渡动画 */
-    z-index: 1000;                    /* 确保在最上层 */
-    display: flex;                    /* 弹性布局 */
-    flex-direction: column;           /* 垂直排列 */
+    width: var(--sidebar-expanded-width);
+    background-color: var(--primary-color);
+    color: white;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 #sidebar.collapsed {
-    width: var(--sidebar-collapsed-width); /* 收缩宽度 */
+    width: var(--sidebar-collapsed-width);
 }
 
 /* === 顶部区域样式 === */
 .sidebar-top {
-    height: 8%;                       /* 高度调整为8% */
-    padding: 10px 0;                  /* 调整内边距 */
-    text-align: center;               /* 内容居中 */
-    border-bottom: 1px solid #4b545c; /* 底部边框 */
-    position: relative;               /* 相对定位 */
-    display: flex;                    /* 弹性布局 */
-    flex-direction: column;           /* 垂直排列 */
-    align-items: center;              /* 水平居中 */
+    height: var(--top-section-height);
+    padding: 20px 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #4b545c;
 }
 
-/* 用户头像样式 */
+.avatar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
 .user-avatar {
-    width: 30px;                     /* 缩小宽度 */
-    height: 30px;                    /* 缩小高度 */
-    border-radius: 50%;              /* 圆形头像 */
-    margin: 0 auto 5px;              /* 外边距 */
-    transition: all 0.3s;            /* 过渡动画 */
-    display: block;                  /* 块级元素 */
-    object-fit: cover;               /* 图片填充方式 */
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: block;
+    object-fit: contain;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
-/* 收缩状态下的头像 */
 #sidebar.collapsed .user-avatar {
-    width: 20px;                     /* 进一步缩小宽度 */
-    height: 20px;                    /* 进一步缩小高度 */
+    width: var(--avatar-size-collapsed);
+    height: var(--avatar-size-collapsed);
 }
 
-/* 用户名样式 */
 .username {
-    font-size: 0.7rem;               /* 缩小字体大小 */
-    transition: all 0.3s;            /* 过渡动画 */
-    white-space: nowrap;             /* 不换行 */
-    overflow: hidden;                /* 隐藏溢出 */
-    text-overflow: ellipsis;         /* 显示省略号 */
-    margin-bottom: 5px;              /* 减小下边距 */
+    font-size: 0.95em;
+    margin-left: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    flex-grow: 1;
 }
 
-/* 收缩时隐藏用户名 */
 #sidebar.collapsed .username {
     display: none;
 }
 
-/* 切换按钮基础样式 */
 .toggle-btn {
-    background: none;                /* 无背景 */
-    border: none;                    /* 无边框 */
-    color: white;                    /* 白色图标 */
-    font-size: 0.7rem;              /* 缩小图标大小 */
-    cursor: pointer;                 /* 手型指针 */
-    width: 20px;                     /* 缩小宽度 */
-    height: 20px;                    /* 缩小高度 */
-    display: flex;                   /* 弹性布局 */
-    align-items: center;             /* 垂直居中 */
-    justify-content: center;         /* 水平居中 */
-    transition: all 0.3s;            /* 过渡动画 */
-    margin-top: 3px;                 /* 减小上边距 */
+    background: none;
+    border: none;
+    color: rgb(36, 234, 161);
+    font-size: 1em;
+    cursor: pointer;
+    width: var(--toggle-btn-size);
+    height: var(--toggle-btn-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: absolute;
+    right: var(--toggle-btn-offset);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1001;
 }
 
-/* 展开状态下的按钮位置 */
-#sidebar:not(.collapsed) .toggle-btn {
-    position: absolute;              /* 绝对定位 */
-    right: 8px;                      /* 减小右侧距离 */
-    top: 50%;                        /* 垂直居中 */
-    transform: translateY(-50%);     /* 精确居中 */
+#sidebar.collapsed .toggle-btn {
+    right: calc(-1 * var(--toggle-btn-size) - var(--toggle-btn-offset));
+}
+
+#sidebar:not(.collapsed) .toggle-btn i {
+    transform: rotate(0deg);
+}
+
+#sidebar.collapsed .toggle-btn i {
+    transform: rotate(180deg);
 }
 
 /* === 底部区域样式 === */
 .sidebar-bottom {
-    height: 13%;                     /* 模型选择5% + 设置按钮8% */
-    margin-top: auto;                /* 推到底部 */
-    border-top: 1px solid #4b545c;   /* 顶部边框 */
-    display: flex;                   /* 弹性布局 */
-    flex-direction: column;          /* 垂直排列 */
+    height: var(--bottom-section-height);
+    margin-top: auto;
+    border-top: 1px solid #4b545c;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 15px;
 }
 
 /* 模型选择区域 */
 .model-section {
-    height: 38.5%;                  /* 约占底部区域的5% */
-    padding: 5px 10px;              /* 内边距 */
-    display: flex;                  /* 弹性布局 */
-    align-items: center;            /* 垂直居中 */
-    gap: 8px;                       /* 元素间距 */
+    margin-bottom: 15px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .model-label {
     color: var(--text-light);
-    font-size: 0.7rem;              /* 缩小字体大小 */
-    white-space: nowrap;            /* 不换行 */
+    font-size: 0.85em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.model-select-container {
+    flex: 1;
+    min-width: 0;
+    position: relative;
 }
 
 .model-select {
-    flex: 1;                        /* 占据剩余空间 */
-    padding: 4px 8px;               /* 内边距 */
-    border-radius: 4px;             /* 圆角 */
-    border: 1px solid #495057;      /* 边框 */
-    background-color: var(--primary-color); /* 背景色 */
-    color: white;                   /* 文字颜色 */
-    font-size: 0.7rem;              /* 缩小字体大小 */
-    cursor: pointer;                /* 手型指针 */
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #495057;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.85em;
+    cursor: pointer;
+    box-sizing: border-box;
+    appearance: none;
 }
 
 .model-select:focus {
-    outline: none;                  /* 移除默认轮廓 */
-    border-color: #6c757d;          /* 焦点状态边框颜色 */
+    outline: none;
+    border-color: #6c757d;
 }
 
 .selected-model {
-    display: none;                  /* 默认隐藏 */
-    font-size: 0.6rem;              /* 缩小字体大小 */
-    white-space: nowrap;            /* 不换行 */
-    overflow: hidden;               /* 隐藏溢出 */
-    text-overflow: ellipsis;        /* 显示省略号 */
-    color: white;                   /* 文字颜色 */
+    display: none;
+    font-size: 0.75em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    text-align: center;
+    width: 100%;
 }
 
 /* 设置按钮区域 */
 .settings-section {
-    height: 61.5%;                  /* 约占底部区域的8% */
-    padding: 5px 10px;              /* 内边距 */
+    padding: 5px;
+    box-sizing: border-box;
 }
 
-/* 设置按钮样式 */
 .settings-btn {
-    width: 100%;                    /* 全宽 */
-    height: 100%;                   /* 全高 */
-    background: none;               /* 无背景 */
-    border: none;                   /* 无边框 */
-    color: var(--text-light);       /* 文字颜色 */
-    padding: 5px;                   /* 内边距 */
-    text-align: left;               /* 文字左对齐 */
-    cursor: pointer;                /* 手型指针 */
-    font-size: 0.7rem;              /* 缩小字体大小 */
-    display: flex;                  /* 弹性布局 */
-    align-items: center;            /* 垂直居中 */
-    transition: all 0.2s;           /* 过渡动画 */
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    padding: 8px 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    border-radius: 4px;
 }
 
-/* 收缩状态下的模型选择和设置按钮 */
+.settings-btn:hover {
+    color: rgb(255, 255, 255);
+    background-color: var(--secondary-color);
+}
+
+.settings-btn i {
+    margin-right: 10px;
+    font-size: 0.9em;
+}
+
+/* 收缩状态下的样式 */
 #sidebar.collapsed .model-section,
 #sidebar.collapsed .settings-section {
-    justify-content: center;        /* 内容居中 */
-    padding: 5px;                  /* 减小内边距 */
+    justify-content: center;
+    padding: 5px 0;
 }
 
 #sidebar.collapsed .model-label,
-#sidebar.collapsed .model-select,
+#sidebar.collapsed .model-select-container,
 #sidebar.collapsed .settings-btn span {
-    display: none;                  /* 隐藏文字和选择框 */
+    display: none;
 }
 
 #sidebar.collapsed .selected-model {
-    display: block;                 /* 显示选中的模型名称 */
-    text-align: center;             /* 文字居中 */
-}
-
-/* 设置按钮悬停效果 */
-.settings-btn:hover {
-    color: white;                   /* 白色文字 */
-    background-color: var(--secondary-color); /* 深色背景 */
-}
-
-/* 设置按钮图标 */
-.settings-btn i {
-    margin-right: 8px;              /* 图标右边距 */
-    font-size: 0.8rem;              /* 图标大小 */
-}
-
-/* === 主内容区样式 === */
-#main-content {
-    margin-left: var(--sidebar-expanded-width); /* 左边距 */
-    padding: 15px;                   /* 内边距 */
-    transition: all 0.3s;             /* 过渡动画 */
-    font-size: 0.9rem;               /* 字体大小 */
-    min-height: 100vh;               /* 最小高度 */
-}
-
-/* 侧边栏收缩时的主内容区 */
-#main-content.expanded {
-    margin-left: var(--sidebar-collapsed-width);
+    display: block;
 }
 
 /* === 设置面板样式 === */
 #settings-panel {
-    position: fixed;                 /* 固定定位 */
-    left: var(--sidebar-expanded-width); /* 左侧位置 */
+    position: fixed;
+    left: var(--sidebar-expanded-width);
     top: 0;
-    width: var(--settings-panel-width); /* 宽度 */
-    height: 100vh;                   /* 全屏高度 */
-    background-color: #f8f9fa;       /* 浅色背景 */
-    transition: all 0.3s;             /* 过渡动画 */
-    z-index: 999;                    /* 在侧边栏下层 */
-    padding: 15px;                   /* 内边距 */
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* 阴影 */
-    transform: translateX(-100%);    /* 初始隐藏 */
+    width: var(--settings-panel-width);
+    height: 100vh;
+    width: 40vh;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    z-index: 999;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transform: translateX(-100%);
+    box-sizing: border-box;
 }
 
-/* 侧边栏收缩时的设置面板位置 */
 #sidebar.collapsed + #settings-panel {
     left: var(--sidebar-collapsed-width);
 }
 
-/* 显示设置面板 */
 #settings-panel.show {
-    transform: translateX(0);        /* 显示出来 */
+    transform: translateX(0);
 }
 
 /* === 响应式设计 === */
 @media (max-width: 768px) {
     :root {
-        --sidebar-expanded-width: 80px;  /* 移动端展开宽度 */
-        --sidebar-collapsed-width: 50px; /* 移动端收缩宽度 */
-        --settings-panel-width: 80%;    /* 移动端设置面板宽度 */
+        --sidebar-expanded-width: 30%;
+        --sidebar-collapsed-width: 100px;
+        --settings-panel-width: 30%;
+        --toggle-btn-offset: 10px;
     }
     
-    /* 调整主内容区边距 */
+    #sidebar {
+        z-index: 1001;
+        
+    }
+    
+    #sidebar.collapsed {
+        width: var(--sidebar-collapsed-width);
+    }
+    
     #main-content {
-        margin-left: 80px;
+        margin-left: var(--sidebar-collapsed-width);
     }
     
-    #main-content.expanded {
-        margin-left: 50px;
-    }
-    
-    /* 调整头像大小 */
-    .user-avatar {
-        width: 25px;
-        height: 25px;
-    }
-    
-    #sidebar.collapsed .user-avatar {
-        width: 18px;
-        height: 18px;
+    #settings-panel.show {
+        z-index: 1002;
     }
 }
+
+@media (max-width: 480px) {
+    :root {
+        --sidebar-expanded-width: 90%;
+        --sidebar-collapsed-width: 50px;
+        --avatar-size-collapsed: 25px;
+        --toggle-btn-offset: 8px;
+    }
+    
+    .sidebar-top {
+        padding: 15px 10px;
+    }
+}
+/* === 侧边栏css止 === */
