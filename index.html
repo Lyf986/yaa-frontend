@@ -19,60 +19,66 @@
         <title>Title</title>
     </head>
     <body>
-        <div id="sidebar">
-            <!-- 顶部区域：头像和用户名 -->
-            <div class="sidebar-top">
-                <div class="avatar-container">
-                    <img src="Byte-Tea-Logo/yaa.svg" alt="用户头像" class="user-avatar" id="avatarCollapse">
-                    <div class="username">YAA</div>
-                </div>
-                <button class="toggle-btn" id="sidebarCollapse">
-                    <i class="fas fa-angle-left"></i>
-                </button>
-            </div>
-            
-            <!-- 底部区域：模型选择和设置按钮 -->
-            <div class="sidebar-bottom">
-                <!-- 模型选择区域 -->
-                <div class="model-section">
-                    <span class="model-label">模型</span>
-                    <div class="model-select-container">
-                        <select class="model-select" id="btn__model-select">
-                            <option value="model1">Model 1</option>
-                            <option value="model2">Model 2</option>
-                            <option value="model3">Model 3</option>
-                        </select>
+        <div class="container">
+            <!-- 侧边栏结构 -->
+            <div id="sidebar">
+                <!-- 顶部区域：头像和用户名 -->
+                <div class="sidebar-top">
+                    <div class="avatar-container">
+                        <img src="Byte-Tea-Logo/yaa.svg" alt="用户头像" class="user-avatar" id="avatarCollapse">
+                        <div class="username">YAA</div>
                     </div>
-                    <div class="selected-model">Model 1</div>
-                </div>
-                
-                <!-- 设置按钮 -->
-                <div class="settings-section">
-                    <button class="settings-btn" id="settingsToggle">
-                        <i class="fas fa-cog"></i>
-                        <span>设置</span>
+                    <button class="toggle-btn" id="sidebarCollapse">
+                        <i class="fas fa-angle-left"></i>
                     </button>
                 </div>
+
+                <!-- 底部区域：模型选择和设置按钮 -->
+                <div class="sidebar-bottom">
+                    <!-- 模型选择区域 -->
+                    <div class="model-section">
+                        <span class="model-label">模型</span>
+                        <div class="model-select-container">
+                            <select class="model-select" id="btn__model-select">
+                                <option value="model1">Model 1</option>
+                                <option value="model2">Model 2</option>
+                                <option value="model3">Model 3</option>
+                            </select>
+                        </div>
+                        <div class="selected-model">Model 1</div>
+                    </div>
+
+                    <!-- 设置按钮 -->
+                    <div class="settings-section">
+                        <button class="settings-btn" id="settingsToggle">
+                            <i class="fas fa-cog"></i>
+                            <span>设置</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <!-- 设置面板 -->
-        <div id="settings-panel">
-            <h3 style="font-size: 1.2rem;">设置面板</h3>
-            <p>设置内容将显示在这里...</p>
-        </div>
+
+            <!-- 设置面板 -->
+            <div id="settings-panel">
+                <h3 style="font-size: 1.2rem;">设置面板</h3>
+                <p>设置内容将显示在这里...</p>
+            </div>
         
    
     
             <!-- 主体对话部分(右侧) -->
-            <div class="conversation">
+            <div id="conversation">
                 <!-- 对话标题 -->
                 <div class="conversation__title">
-                    对话标题
+                    <span class="conversation__title__content">
+                        对话标题
+                    </span>
                 </div>
                 <div class="conversation__content">
                     <div class="msg__system">
-                        系统提示
+                        <span class="msg__system__content">
+                            系统提示
+                        </span>
                     </div>
                     <div class="msg__ai">
                         <!-- ai头像 -->
@@ -91,7 +97,6 @@
                                 </span>
                             </div>
                         </div>
-                        </span>
                     </div>
                     <div class="msg__user">
                         <!-- 用户头像 -->
@@ -111,7 +116,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="conversation__input">
                     <input class="conversation__input__textarea" type="text" placeholder="输入消息……">
@@ -121,10 +125,7 @@
         </div>
         <script src="index.js"></script>
         <!-- JavaScript 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    
-    
-    </script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     </body>
 </html>
