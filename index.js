@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // 设置按钮点击事件
     settingsToggle.addEventListener('click', function(e) {
         // 如果侧边栏是展开状态，先折叠
         if (!sidebar.classList.contains('collapsed')) {
