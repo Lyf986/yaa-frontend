@@ -45,7 +45,7 @@
     /* 对话标题 */
     padding: 0.5vh 1vw;
     height: 8%;
-    margin-bottom: 1%;
+    margin-bottom: 5px;
     font-size: min(5vh,5vw);
     background: white;
     text-align: center;
@@ -157,9 +157,8 @@
 
 .conversation__input{
     /* 对话输入窗口 */
-    height: 19%;
-    margin-top: 1%;
-    padding: 5px;
+    height: 20%;
+    padding: 5px 5px;
 }
 
 #conversation__input__textarea{
