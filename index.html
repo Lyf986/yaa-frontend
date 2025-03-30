@@ -25,7 +25,7 @@
                 <!-- 顶部区域：头像和用户名 -->
                 <div class="sidebar-top">
                     <div class="avatar-container">
-                        <img src="Byte-Tea-Logo/yaa.svg" alt="用户头像" class="user-avatar" id="avatarCollapse">
+                        <img src="Byte-Tea-Logo/yaa.svg" alt="模型名称" class="user-avatar" id="avatarCollapse">
                         <div class="username">YAA</div>
                     </div>
                     <button class="toggle-btn" id="sidebarCollapse">
@@ -80,36 +80,37 @@
                             系统提示
                         </span>
                     </div>
-                    <div class="msg__ai">
+                    <div class="msg__both msg__ai">
                         <!-- ai头像 -->
-                        <img class="msg__ai__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">
-                        <div class="msg__ai__main">
+                        <img class="msg__both__avatar msg__ai__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">
+                        <div class="msg__both__main msg__ai__main">
                             <!-- ai名称 -->
-                            <div class="msg__ai__main__name">
+                            <div class="msg__both__main__name msg__ai__main__name">
                                 <span class="msg__ai__main__name__text">
                                     ai模型名称
                                 </span>
                             </div>
                             <!-- ai消息内容 -->
-                            <div class="msg__ai__main__content" src="">
+                            <div class="msg__both__main__content msg__ai__main__content" src="">
                                 <span class="msg__ai__main__content__text">
                                     ai消息
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam nesciunt necessitatibus omnis ipsum, inventore fuga sequi ex porro quae accusamus beatae praesentium a hic amet iure! Ad corporis explicabo aliquam.
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div class="msg__user">
+                    <div class="msg__both msg__user">
                         <!-- 用户头像 -->
-                        <img class="msg__user__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">
-                        <div class="msg__user__main">
+                        <img class="msg__both__avatar msg__user__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">
+                        <div class="msg__both__main msg__user__main">
                             <!-- 用户名 -->
-                            <div class="msg__user__main__name">
+                            <div class="msg__both__main__name msg__user__main__name">
                                 <span class="msg__user__main__name__text">
                                     用户名
                                 </span>
                             </div>
                             <!-- 用户消息内容 -->
-                            <div class="msg__user__main__content" src="">
+                            <div class="msg__both__main__content msg__user__main__content" src="">
                                 <span class="msg__user__main__content__text">
                                     用户消息
                                 </span>
@@ -118,8 +119,23 @@
                     </div>
                 </div>
                 <div class="conversation__input">
-                    <input class="conversation__input__textarea" type="text" placeholder="输入消息……">
-                    <button class="btn_default" id="btn__sendMessage" onclick="">发送</button>
+                    <input id="conversation__input__textarea" type="text" placeholder="输入消息……">
+                    <div class="conversation__input__btns-area">
+                        <button class="btn_default btn__conversation__input__btns-area" id="btn__addAttachment" onclick="">
+                            <!-- 添加附件 -->
+                            <i class="fa-solid fa-paperclip "></i>
+                            <span class="btn__conversation__input__btns-area__text" id="btn__addAttachment__text">
+                                添加附件
+                            </span>
+                        </button>
+                        <button class="btn_default btn__conversation__input__btns-area" id="btn__sendMessage" onclick="">
+                            <!-- 发送消息 -->
+                            <i class="fa-regular fa-paper-plane"></i>
+                            <span class="btn__conversation__input__btns-area__text" id="btn__sendMessage__text">
+                                发送消息
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
