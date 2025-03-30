@@ -37,13 +37,12 @@
     float: right;
     padding: 20px;
     background: grey;
-    transition: all 0.25s ease-in-out;
-    overflow-y: auto;
-    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+
 }
 #conversation:hover{
-    transition: all 0.25s ease-in-out;
-    left: var(--sidebar-collapsed-width);
+    transition: all 0.3s ease-in-out;
+    left: var(--sidebar-expanded-width);
 }
 
 .conversation__title{
@@ -474,7 +473,10 @@
 #sidebar.collapsed + #conversation {
     left: var(--sidebar-collapsed-width);
 }
-
+#sidebar.expanded + #settings-panel + #conversation,
+#sidebar.expanded + #conversation {
+    left: var(--sidebar-expanded-width);
+}
 /* 设置面板显示时的主内容区位置 */
 #settings-panel.show + #conversation {
     left: calc(var(--sidebar-collapsed-width) + var(--settings-panel-width));
