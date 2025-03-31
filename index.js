@@ -1,5 +1,7 @@
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function() {
+    // 设置事件监听器
+    setupEventListeners();
     // 获取DOM元素
     const sidebar = document.getElementById('sidebar');
     const sidebarCollapse = document.getElementById('sidebarCollapse');
@@ -100,3 +102,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// 事件监听器设置
+function setupEventListeners(){
+    const elements = {
+        '#btn__sendMessage__text': () => sendMsg(),
+        '#conversation__input__textarea': e => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMsg();
+            }
+        },
+    };
+    Object.entries(elements).forEach(([selector, handler]) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            const eventType = selector === '#conversation__input__textarea' ? 'keypress' : 'click';
+            element.addEventListener(eventType, handler);
+        }
+    });
+}
+// 发送消息
+function sendMsg(){
+    const msgInput = document.getElementById('conversation__input__textarea');
+    const msg = msgInput.value.trim();
+    if(!msg) return;
+    appendUserMsg(msg);
+    msgInput.value = '';
+    scrollToBottom();
+}
+// 弹出消息
+function appendUserMsg(content){
+    const conversation_content = document.getElementById('conversation__content');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'msg__both msg__user';
+    msgDiv.innerHTML = generateMsgContent(content);
+    conversation_content.appendChild(msgDiv);
+}
+// 生成消息
+function generateMsgContent(content){
+    const MsgContent = '<img class="msg__both__avatar msg__user__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">'
+     + '<div class="msg__both__main msg__user__main">'
+     + '<div class="msg__both__main__name msg__user__main__name">用户名</div>'
+     +'<div class="msg__both__main__content msg__user__main__content" src="">' 
+     + content 
+     + '</div></div>';
+    return MsgContent;
+}
+// 对话框滚动到最下方
+function scrollToBottom(){
+    const conversation__content = document.getElementById('conversation__content');
+    conversation__content.scrollTop = conversation__content.scrollHeight;
+}
