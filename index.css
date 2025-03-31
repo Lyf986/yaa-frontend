@@ -41,17 +41,20 @@
     overflow-y: auto;
     box-sizing: border-box;
 }
-.conversation__title{
+#conversation:hover{
+    /* opacity: 0.5; */
+}
+#conversation__title{
     /* 对话标题 */
     padding: 0.5vh 1vw;
-    height: 8%;
+    height: fit-content;
     margin-bottom: 0.5%;
     font-size: min(5vh,5vw);
     background: white;
     text-align: center;
     border-radius: 5px;
 }
-.conversation__content{
+#conversation__content{
     /* 对话内容 */
     display: flex;
     flex-direction: column;
@@ -60,6 +63,7 @@
     background: #cccccc;
     overflow-y: auto;
     border-radius: 5px;
+    overflow-x: hidden;
 }
 
 .msg__system{
@@ -68,24 +72,28 @@
     text-align: center;
     border-radius: 5px;
     margin: 5px 0;
-    background: lightgray;
-}
-
-.msg__system__content{
-    /* 系统提示消息 */
+    background: #eeeeee;
 }
 
 .msg__both{
     /* ai&用户消息 */
+    position: relative;
     margin: 10px 0;
+    padding: 0 0 ;
+    box-sizing: border-box;
 }
 .msg__both__avatar{
     /* ai&用户头像 */
-    width: 50px;
+    position: relative;
+    top: min(5px,1vw);
+    width: min(50px,5vw);
+    box-sizing: border-box;
 }
 .msg__both__main{
     /* ai&用户消息主要部分 */
-
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 min(50px,5.5vw);
 }
 .msg__both__main__content{
     /* ai&用户消息内容气泡 */
@@ -93,12 +101,17 @@
     padding: 5px 10px;
     height: fit-content;    
     width: fit-content;
-    max-width: calc(100% - 60px);
+    /* max-width: calc(100% - min(25px,2.5vw)); */
     background: white;
     border-radius: 5px;
+    text-align: left;
+    box-sizing: border-box;
 }
+
 .msg__both__name{
     /* ai&用户名称 */
+    max-width: calc(100% - min(50px,5vw));
+    box-sizing: border-box;
 }
 
 .msg__ai{
@@ -112,30 +125,20 @@
 }
 .msg__ai__main{
     /* ai消息主要部分(用户名和内容) */
-    margin-left: 60px;
 }
 .msg__ai__main__name{
     /* ai名称 */
-    text-align: left;
-    max-width: calc(100% - 100px);
 }
 
 .msg__ai__main__content{
     /* ai内容气泡 */
     float: left;
-    
-}
-
-.msg__ai__main__content__text{
-    /* ai对话文字内容 */
-    /* white-space: pre; */
 }
 
 .msg__user{
     /* 用户消息(包括头像和主要部分) */
     /* 居右 */
     float: right;
-
 }
 .msg__user__avatar{
     /* 用户头像 */
@@ -143,7 +146,6 @@
 }
 .msg__user__main{
     /* 用户消息主要部分(用户名和内容) */
-    margin-right: 60px;
 }
 .msg__user__main__name{
     /* 用户名 */
@@ -153,22 +155,24 @@
     /* 用户内容气泡 */
     float: right;
 }
-.msg__user__main__content__text{
-    /* 用户对话文字内容 */
-}
-
-.conversation__input{
+#conversation__input{
     /* 对话输入窗口 */
+    position: relative;
     height: 20%;
-    padding: 5px 5px;
+    /* margin-bottom: 0px; */
+    padding: 5px 5px 0px;
+    box-sizing: border-box;
 }
 
 #conversation__input__textarea{
     /* 消息输入框 */
+    position: relative;
     float: left;
     height: 100%;
     width: 90%;
+    bottom: 0;
     border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .btn_default{
@@ -177,26 +181,43 @@
     border: 0px;
     padding: 10% 10%;
     border-radius: 7px;
+    box-sizing: border-box;
 }
 .conversation__input__btns-area{
     /* 输入按钮区域 */
     position: relative;
     display: flex;
     flex-direction: column;
-    float: left;
+    float: right;
     height: 100%;
     width: 10%;
-    padding-left: 5px;
+    /* padding-left: 5px; */
     align-items: center;
+    box-sizing: border-box;
 }
 .btn__conversation__input__btns-area{
     /* 输入按钮区域的按钮 */
-    padding: 5px 0;
+    position: relative;
+    padding: 5px 2.5px;
     height: 50%;
     width: 75%;
     text-align: center;
     border-radius: 10px;
     margin: 5px 0;
+    box-sizing: border-box;
+    color: #262626;
+    background: #f8f9fa;
+    transition: all 0.25s ease;
+}
+.btn__conversation__input__btns-area:hover{
+    color: #f8f9fa;
+    background: #262626;
+    transition: all 0.25s ease;
+}
+.btn__conversation__input__btns-area:active{
+    color: #f8f9fa;
+    background: #888888;
+    transition: all 0.1s ease;
 }
 @media (max-width: 1100px) {
     /* 自适应宽度输入按钮文字消失 */
