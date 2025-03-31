@@ -1,5 +1,6 @@
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function() {
+    // 设置事件监听器
     setupEventListeners();
     // 获取DOM元素
     const sidebar = document.getElementById('sidebar');
@@ -127,6 +128,7 @@ function sendMsg(){
     if(!msg) return;
     appendUserMsg(msg);
     msgInput.value = '';
+    scrollToBottom();
 }
 // 弹出消息
 function appendUserMsg(content){
@@ -146,7 +148,8 @@ function generateMsgContent(content){
      + '</div></div>';
     return MsgContent;
 }
+// 对话框滚动到最下方
 function scrollToBottom(){
     const conversation__content = document.getElementById('conversation__content');
-    conversation__content.conversation__content = history.scrollHeight;
+    conversation__content.scrollTop = conversation__content.scrollHeight;
 }
