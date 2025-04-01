@@ -133,20 +133,47 @@ function sendMsg(){
 // 弹出消息
 function appendUserMsg(content){
     const conversation_content = document.getElementById('conversation__content');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'msg__both msg__user';
-    msgDiv.innerHTML = generateMsgContent(content);
-    conversation_content.appendChild(msgDiv);
+    
+    // const msgDiv = document.createElement('div');
+    // msgDiv.className = 'msg__both msg__user';
+    // msgDiv.innerHTML = generateMsgContent(content);
+    
+    // conversation_content.appendChild(msgDiv);
+    conversation_content.appendChild(generateMsgContent(content))
 }
 // 生成消息
 function generateMsgContent(content){
-    const MsgContent = '<img class="msg__both__avatar msg__user__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">'
-     + '<div class="msg__both__main msg__user__main">'
-     + '<div class="msg__both__main__name msg__user__main__name">用户名</div>'
-     +'<div class="msg__both__main__content msg__user__main__content" src="">' 
-     + content 
-     + '</div></div>';
-    return MsgContent;
+
+    const nameDiv = document.createElement('div')
+    nameDiv.className = "msg__both__main__name msg__user__main__name"
+    nameDiv.innerHTML = "用户名"
+
+    const contentDiv = document.createElement('div')
+    contentDiv.className = "msg__both__main__content msg__user__main__content"
+    contentDiv.innerHTML = content
+
+    const mainDiv = document.createElement('div')
+    mainDiv.className = "msg__both__main msg__user__main"
+    mainDiv.appendChild(nameDiv)
+    mainDiv.appendChild(contentDiv)
+
+    const avatarImg = document.createElement('img')
+    avatarImg.className = "msg__both__avatar msg__user__avatar"
+    avatarImg.src = "Byte-Tea-Logo/Byte-Tea.svg"
+
+    const msgDiv = document.createElement('div')
+    msgDiv.className = "msg__both msg__user"
+    msgDiv.appendChild(avatarImg)
+    msgDiv.appendChild(mainDiv)
+    
+    return msgDiv
+    // const MsgContent = '<img class="msg__both__avatar msg__user__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">'
+    //  + '<div class="msg__both__main msg__user__main">'
+    //  + '<div class="msg__both__main__name msg__user__main__name">用户名</div>'
+    //  +'<div class="msg__both__main__content msg__user__main__content" src="">' 
+    //  + content 
+    //  + '</div></div>';
+    // return MsgContent;
 }
 // 对话框滚动到最下方
 function scrollToBottom(){
