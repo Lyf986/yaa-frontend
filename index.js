@@ -80,7 +80,7 @@ function checkSidebarState() {
 // 事件监听器设置
 function setupEventListeners(){
     const elements = {
-        '#btn__sendMessage__text': () => sendMsg(),
+        '#btn__sendMessage': () => sendMsg(),
         '#conversation__input__textarea': e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
