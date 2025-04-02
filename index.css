@@ -71,7 +71,7 @@
     padding: 0.5vh 1vw;
     text-align: center;
     border-radius: 5px;
-    margin: 5px 0;
+    margin: 5px 5vw;
     background: #eeeeee;
 }
 
@@ -95,6 +95,11 @@
     box-sizing: border-box;
     margin: 0 min(50px,5.5vw);
 }
+.msg__both__main__name{
+    /* ai&用户名称 */
+    /* max-width: calc(100% - min(50px,5vw)); */
+    box-sizing: border-box;
+}
 .msg__both__main__content{
     /* ai&用户消息内容气泡 */
     position: relative;
@@ -102,15 +107,9 @@
     height: fit-content;    
     width: fit-content;
     /* max-width: calc(100% - min(25px,2.5vw)); */
-    background: white;
+    background: #ffffff;
     border-radius: 5px;
     text-align: left;
-    box-sizing: border-box;
-}
-
-.msg__both__name{
-    /* ai&用户名称 */
-    max-width: calc(100% - min(50px,5vw));
     box-sizing: border-box;
 }
 
