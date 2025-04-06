@@ -106,18 +106,44 @@ function setupEventListeners(){
     });
 }
 // 发送消息
-function sendMsg(){
+async function sendMsg(){
     // 引入元素：输入框
     const msgInput = document.getElementById('conversation__input__textarea');
     const msg = msgInput.value.trim();
     
     // 输入框为空时，返回
     if(!msg) return
+// 发送请求
+    try{
+        const response = await fetch('http://127.0.0.1:12345', {
+          method: 'POST',
+          headers: { 'Authorzation': 'YAA-API-KEY yaa','Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id:213124,
+            title: '',
+            start_time: new Date().toLocaleTimeString(),
+            character: "你叫yaa，你是一个智能体",
+            status: "进行中",
+            messages: [
+                {
+                    role: "user",
+                    content: "你将会回应以下内容"
+                }
+            ]
+         })  // 将对象转为 JSON 字符串
+        });
+        
+        const data = await response.json();
+        console.error(data)
+        const errorContent = data.messages[0].content;
+        appendMsg_ai(errorContent)
+        
+    }
 
-    // 弹出消息
-    appendMsg_user(msg)
-    appendMsg_ai(msg)
-    appendMsg_system(msg)
+    catch(error){
+        console.error(error);
+    }
+    
 
     // 消息输入框置空
     msgInput.value = '';
