@@ -81,6 +81,9 @@ function checkSidebarState() {
 function setupEventListeners(){
     const elements = {
         '#btn__sendMessage': () => sendMsg(),
+        '#downloadHistory': () => downloadHistory(),
+        '#clearHistory': () => clearHistory(),
+        '#importHistory': () => importHistory(),
         '#conversation__input__textarea': e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -113,41 +116,61 @@ async function sendMsg(){
     
     // 输入框为空时，返回
     if(!msg) return
-// 发送请求
+
+    // 弹出消息(包括将消息添加到历史)
+    appendMsg_withAddingToHistory('user', msg);
+
+    // 发送请求
     try{
-        const response = await fetch('http://127.0.0.1:12345', {
-          method: 'POST',
-          headers: { 'Authorzation': 'YAA-API-KEY yaa','Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id:213124,
-            title: '',
-            start_time: new Date().toLocaleTimeString(),
-            character: "你叫yaa，你是一个智能体",
-            status: "进行中",
-            messages: [
-                {
-                    role: "user",
-                    content: "你将会回应以下内容"
-                }
-            ]
-         })  // 将对象转为 JSON 字符串
-        });
-        
-        const data = await response.json();
-        console.error(data)
-        const errorContent = data.messages[0].content;
-        appendMsg_ai(errorContent)
-        
+    const response = await fetch('http://127.0.0.1:12345', {
+      method: 'POST',
+      headers: { 'Authorzation': 'YAA-API-KEY yaa','Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id:213124,
+        title: '',
+        start_time: new Date().toLocaleTimeString(),
+        character: "你叫yaa，你是一个智能体",
+        status: "进行中",
+        messages: [
+            {
+                role: "user",
+                content: "你将会回应以下内容"
+            }
+        ]
+     })  // 将对象转为 JSON 字符串
+    });
+    
+    const data = await response.json();
+    console.error(data);
+    const errorContent = data.messages[0].content;
+    appendMsg_withAddingToHistory('ai', errorContent);
+    
     }
 
     catch(error){
         console.error(error);
     }
-    
 
     // 消息输入框置空
     msgInput.value = '';
+
     scrollToBottom();
+}
+
+// 弹出消息
+function appendMsg(role, content){
+    if(role=='ai') appendMsg_ai(content);
+    else if(role=='system') appendMsg_system(content);
+    else if(role=='user') appendMsg_user(content);
+    else appendMsg_system('错误:弹出信息失败');
+}
+
+// 弹出消息(并写入历史)
+function appendMsg_withAddingToHistory(role, content){
+    // 弹出消息
+    appendMsg(role, content);
+    // 将消息添加到历史
+    addMessageToHistory({ role: role, content: content });
 }
 
 // 弹出系统消息
@@ -282,4 +305,88 @@ function toggleSidebar() {
     
     // 存储侧边栏状态
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+}
+
+let conversationHistory = [{ role: 'system', content: '你叫“yaa”，接下来请你根据用户的指示进行回复。' }];
+
+// 加载历史
+function loadHistory() {
+    const savedHistory = localStorage.getItem('conversationHistory');
+    if (savedHistory) {
+      conversationHistory = JSON.parse(savedHistory);
+      displayMessages(conversationHistory);
+    }
+}
+
+// 显示消息
+function displayMessages(messages) {
+    const startIndex = messages.length > 0 && messages[0].role === 'system' ? 1 : 0;
+    messages.slice(startIndex).forEach(msg => appendMsg(msg.content, msg.role));
+}
+
+// 添加消息到历史记录
+function addMessageToHistory(message) {
+    conversationHistory.push(message);
+    localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+}
+
+// 下载历史
+function downloadHistory() {
+    const history = JSON.stringify(conversationHistory, null, 2); // 将历史记录转换为 JSON 格式
+    const blob = new Blob([history], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '对话历史.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// 清空对话框内容
+function clearConversation(){
+    const history = document.getElementById('conversation__content');
+    history.innerHTML = ''; // 清空聊天历史
+}
+
+// 清空历史
+function clearHistory() {
+    clearConversation();
+    conversationHistory = [{ role: 'system', content: '你叫“yaa”，接下来请你根据用户的指示进行回复。' }]; // 清空历史记录数组
+    // 清空 localStorage 中的历史消息
+    localStorage.removeItem('conversationHistory');
+}
+// 导入历史
+function importHistory() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const importedHistory = JSON.parse(e.target.result);
+            if (Array.isArray(importedHistory)) {
+              conversationHistory = importedHistory;
+              const history = document.getElementById('conversation__content');
+              history.innerHTML = ''; // 清空当前聊天历史
+              // 如果第一条消息是 system 的，则跳过显示
+              if (conversationHistory.length > 0 && conversationHistory[0].role === 'system') {
+                conversationHistory.slice(1).forEach(msg => appendMsg(msg.role, msg.content));
+              } else {
+                conversationHistory.forEach(msg => appendMsg(msg.role, msg.content));
+              }
+              localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+            } else {
+              alert('导入的历史记录格式不正确');
+            }
+          } catch (error) {
+            alert('解析历史记录失败');
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
 }
