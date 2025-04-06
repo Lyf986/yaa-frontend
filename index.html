@@ -68,28 +68,16 @@
     
             <!-- 主体对话部分(右侧) -->
             <div id="conversation">
-
                 <!-- 对话标题 -->
                 <div id="conversation__title">
                     <span class="conversation__title__content">
                         对话标题
                     </span>
                 </div>
-
-                <!-- 回到底部按钮 -->
-                <button id="btn_scrollToBottom" class="btn_default">
-                    <i class="fa-solid fa-angle-down"></i>
-                </button>
-                
-                <!-- 对话内容 -->
                 <div id="conversation__content">
-
-                    <!-- 系统消息 -->
                     <div class="msg__system">
                         系统提示
                     </div>
-
-                    <!-- ai消息 -->
                     <div class="msg__both msg__ai">
                         <!-- ai头像 -->
                         <img class="msg__both__avatar msg__ai__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">
@@ -102,8 +90,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- 用户消息 -->
                     <div class="msg__both msg__user">
                         <!-- 用户头像 -->
                         <img class="msg__both__avatar msg__user__avatar" src="Byte-Tea-Logo/Byte-Tea.svg">
@@ -114,26 +100,17 @@
                             <div class="msg__both__main__content msg__user__main__content" src="">用户消息</div>
                         </div>
                     </div>
-
                 </div>
-
-
                 <div id="conversation__input">
-
-                    <!-- 输入框 -->
-                    <input id="conversation__input__textarea" type="text" placeholder="输入消息……">
-                    
-                    <!-- 输入按钮区域 -->
+                    <input id="conversation__input__textarea" type="text" >
                     <div class="conversation__input__btns-area">
-                        <!-- 添加附件 -->
                         <button class="btn_default btn__conversation__input__btns-area" id="btn__addAttachment" onclick="">
+                            <!-- 添加附件 -->
                             <i class="fa-solid fa-paperclip "></i>
                             <span class="btn__conversation__input__btns-area__text" id="btn__addAttachment__text">
                                 添加附件
                             </span>
                         </button>
-
-                        <!-- 发送消息 -->
                         <button class="btn_default btn__conversation__input__btns-area" id="btn__sendMessage" onclick="">
                             <!-- 发送消息 -->
                             <i class="fa-regular fa-paper-plane"></i>
@@ -143,7 +120,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
         <script src="index.js"></script>
