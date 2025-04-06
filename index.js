@@ -4,7 +4,6 @@ setupEventListeners();
 const sidebar = document.getElementById('sidebar');
 const sidebarCollapse = document.getElementById('sidebarCollapse');
 const avatarCollapse = document.getElementById('avatarCollapse');
-const mainContent = document.getElementById('main-content');
 const modelSelect = document.getElementById('btn__model-select');
 const selectedModelDisplay = document.querySelector('.selected-model');
 const settingsToggle = document.getElementById('settingsToggle');
@@ -52,7 +51,7 @@ checkSidebarState();
 // 恢复上次的侧边栏状态
 if (localStorage.getItem('sidebarCollapsed') === 'true') {
     sidebar.classList.add('collapsed');
-    mainContent.classList.add('expanded');
+    conversation.classList.add('expanded');
 }
 
 /**
@@ -122,10 +121,39 @@ function sendMsg(){
     // 消息输入框置空
     msgInput.value = '';
     scrollToBottom();
-}
+    try{
+        const response = await fetch('http://127.0.0.1:12345', {
+          method: 'POST',
+          headers: { 'Authorzation': 'YAA-API-KEY yaa','Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id:213124,
+            title: '',
+            start_time: new Date().toLocaleTimeString(),
+            character: "你叫yaa，你是一个智能体",
+            status: "进行中",
+            messages: [
+                {
+                    role: "user",
+                    content: "你将会回应以下内容"
+                }
+            ]
+         })  // 将对象转为 JSON 字符串
+        });
+        
+        const data = await response.json();
+        console.error(data)
+        const errorContent = data.messages[0].content;
+        appendAiMsg(errorContent)
+        
+    }
 
+    catch(error){
+        console.error(error);
+    }
+}
 // 弹出系统消息
 function appendMsg_system(content){
+    // const reader=response.bo
     const conversation_content = document.getElementById('conversation__content');
     conversation_content.appendChild(generateMsg_system(content));
 }
@@ -252,7 +280,7 @@ function show_btn_scrollToBottom(){
 // 侧边栏展开/收缩功能
 function toggleSidebar() {
     sidebar.classList.toggle('collapsed');
-    mainContent.classList.toggle('expanded');
+    conversation.classList.toggle('expanded');
     
     // 存储侧边栏状态
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
