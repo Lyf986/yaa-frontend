@@ -180,12 +180,13 @@
 
 .btn_default{
     /* 默认按钮 */
-    height: 25px;
+    height: 2em;
     border: 0px;
     margin: 0;
-    padding: 0;
+    padding: 0 5px;
     border-radius: 7px;
     box-sizing: border-box;
+    vertical-align: 50%;
 }
 .btn_default:hover{
     /* 默认按钮(悬停时) */
