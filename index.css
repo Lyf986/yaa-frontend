@@ -36,7 +36,7 @@
     height: 100vh;
     float: right;
     padding: 10px 20px;
-    background: #aaaaaa;
+    background: #d9d9d9;
     transition: all 0.3s ease;
     overflow-y: auto;
     box-sizing: border-box;
@@ -47,12 +47,13 @@
 #conversation__title{
     /* 对话标题 */
     padding: 0.5vh 1vw;
-    height: fit-content;
+    height: 8%;
     margin-bottom: 0.5%;
     font-size: min(5vh,5vw);
     background: white;
     text-align: center;
-    border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #conversation__content{
     /* 对话内容 */
@@ -72,13 +73,13 @@
     text-align: center;
     border-radius: 5px;
     margin: 5px 5vw;
-    background: #eeeeee;
+    background: #bbbbbb;
 }
 
 .msg__both{
     /* ai&用户消息 */
     position: relative;
-    margin: 10px 0;
+    margin: 5px 0;
     padding: 0 0 ;
     box-sizing: border-box;
 }
@@ -88,6 +89,7 @@
     top: min(5px,1vw);
     width: min(50px,5vw);
     box-sizing: border-box;
+    
 }
 .msg__both__main{
     /* ai&用户消息主要部分 */
@@ -98,7 +100,9 @@
 .msg__both__main__name{
     /* ai&用户名称 */
     /* max-width: calc(100% - min(50px,5vw)); */
+    text-overflow: ellipsis;
     box-sizing: border-box;
+    
 }
 .msg__both__main__content{
     /* ai&用户消息内容气泡 */
@@ -175,13 +179,62 @@
 }
 
 .btn_default{
-    /* 按钮(一般情况) */
+    /* 默认按钮 */
     height: 25px;
     border: 0px;
-    padding: 10% 10%;
+    margin: 0;
+    padding: 0;
     border-radius: 7px;
     box-sizing: border-box;
 }
+.btn_default:hover{
+    /* 默认按钮(悬停时) */
+    color: #f8f9fa;
+    background: #262626;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.btn_default:active{
+    /* 默认按钮(按下时) */
+    color: #f8f9fa;
+    background: #888888;
+    transition: all 0.1s ease;
+}
+
+#btn_scrollToBottom{
+    /* 滚动到最下方按钮 */
+    visibility: hidden;
+    position: absolute;
+    bottom: 24vh;
+    right: min(50px,10vw);
+    padding: 0.25em 1em;
+    color: #262626;
+    background: #f8f9fa;
+    box-shadow: 0.5px 1px 3px #262626;
+    box-sizing: border-box;
+    z-index: 50;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.5s ease;
+}
+#btn_scrollToBottom.show{
+    visibility: visible;
+    cursor: pointer;
+    opacity: 1;
+    transform: translateY(0);
+}
+#btn_scrollToBottom:hover{
+    color: #f8f9fa;
+    background: #262626;
+    transform: translateY(5px);
+    transition: all 0.5s ease;
+}
+#btn_scrollToBottom:active{
+    color: #f8f9fa;
+    background: #888888;
+    transition: all 0.1s ease;
+}
+
 .conversation__input__btns-area{
     /* 输入按钮区域 */
     position: relative;
@@ -206,11 +259,14 @@
     box-sizing: border-box;
     color: #262626;
     background: #f8f9fa;
+    box-shadow: 0.5px 1px 3px #262626;
     transition: all 0.25s ease;
 }
 .btn__conversation__input__btns-area:hover{
+    /* 输入按钮区域的按钮(悬停时) */
     color: #f8f9fa;
     background: #262626;
+    cursor: pointer;
     transition: all 0.25s ease;
 }
 .btn__conversation__input__btns-area:active{
