@@ -323,7 +323,7 @@
     --bottom-section-height: 120px;    /* 底部区域高度 */
     --avatar-size: 40px;               /* 头像大小 */
     --avatar-size-collapsed: 30px;     /* 收缩时头像大小 */
-    --toggle-btn-size: 24px;           /* 切换按钮大小 */
+    --toggle-btn-size: 1px;           /* 切换按钮大小 */
     --toggle-btn-offset: 15px;         /* 切换按钮偏移量 */
 }
 
@@ -428,7 +428,7 @@
     background: none; /* 无背景 */
     border: none; /* 无边框 */
     color: rgb(36, 234, 161); /* 按钮颜色 */
-    font-size: 1em; /* 字体大小 */
+    font-size: 1.5em; /* 字体大小 */
     cursor: pointer; /* 鼠标指针样式 */
     width: var(--toggle-btn-size); /* 使用CSS变量设置按钮大小 */
     height: var(--toggle-btn-size); /* 使用CSS变量设置按钮大小 */
@@ -563,7 +563,26 @@
     margin-right: 10px; /* 右边距 */
     font-size: 0.9em; /* 字体大小 */
 }
+/* 设置界面保存按钮 */
+#save-settings {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 15px;
 
+}
+.Pform-group {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
 /* 
  * 侧边栏折叠状态下的特殊样式
  */
