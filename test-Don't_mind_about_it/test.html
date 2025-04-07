@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM API 聊天界面</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --light-gray: #e1e5ee;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+        }
+        
+        .settings-panel {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        
+        .user-message {
+            background-color: var(--light-gray);
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-top: 1px solid #ddd;
+        }
+        
+        #message-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        #message-input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        #send-button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        #send-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"], input[type="url"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        #save-settings {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #save-settings:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .typing-indicator {
+            display: none;
+            margin-bottom: 15px;
+        }
+        
+        .typing-indicator span {
+            height: 10px;
+            width: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 3px;
+            animation: typing 1s infinite ease-in-out;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LLM API 聊天界面</h1>
+            <p>设置您的API端点并开始与AI对话</p>
+        </header>
+        
+        <div class="settings-panel">
+            <h2>API 设置</h2>
+            <div class="form-group">
+                <label for="api-url">API 端点 URL</label>
+                <input type="url" id="api-url" placeholder="https://api.example.com/v1/chat/completions">
+            </div>
+            <div class="form-group">
+                <label for="api-key">API 密钥 (可选)</label>
+                <input type="text" id="api-key" placeholder="sk-...">
+            </div>
+            <div class="form-group">
+                <label for="model">模型</label>
+                <input type="text" id="model" placeholder="gpt-3.5-turbo">
+            </div>
+            <button id="save-settings">保存设置</button>
+            <div id="settings-status" class="status"></div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="typing-indicator" id="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="message-input" placeholder="输入您的消息..." autocomplete="off">
+                <button id="send-button">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const apiUrlInput = document.getElementById('api-url');
+            const apiKeyInput = document.getElementById('api-key');
+            const modelInput = document.getElementById('model');
+            const saveSettingsBtn = document.getElementById('save-settings');
+            const settingsStatus = document.getElementById('settings-status');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const chatMessages = document.getElementById('chat-messages');
+            const typingIndicator = document.getElementById('typing-indicator');
+            
+            // 从本地存储加载设置
+            loadSettings();
+            
+            // 保存设置
+            saveSettingsBtn.addEventListener('click', saveSettings);
+            
+            // 发送消息
+            sendButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // 加载设置函数
+            function loadSettings() {
+                const settings = JSON.parse(localStorage.getItem('llmSettings')) || {};
+                apiUrlInput.value = settings.apiUrl || '';
+                apiKeyInput.value = settings.apiKey || '';
+                modelInput.value = settings.model || 'gpt-3.5-turbo';
+            }
+            
+            // 保存设置函数
+            function saveSettings() {
+                const settings = {
+                    apiUrl: apiUrlInput.value.trim(),
+                    apiKey: apiKeyInput.value.trim(),
+                    model: modelInput.value.trim()
+                };
+                
+                if (!settings.apiUrl) {
+                    showStatus('请输入API端点URL', 'error');
+                    return;
+                }
+                
+                localStorage.setItem('llmSettings', JSON.stringify(settings));
+                showStatus('设置已保存', 'success');
+            }
+            
+            // 显示状态消息
+            function showStatus(message, type) {
+                settingsStatus.textContent = message;
+                settingsStatus.className = `status ${type}`;
+                settingsStatus.style.display = 'block';
+                
+                setTimeout(() => {
+                    settingsStatus.style.display = 'none';
+                }, 3000);
+            }
+            
+            // 发送消息函数
+            async function sendMessage() {
+                const message = messageInput.value.trim();
+                if (!message) return;
+                
+                // 添加用户消息到聊天界面
+                addMessage('user', message);
+                messageInput.value = '';
+                
+                // 显示正在输入指示器
+                typingIndicator.style.display = 'block';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                try {
+                    // 获取设置
+                    const settings = JSON.parse(localStorage.getItem('llmSettings')) || {};
+                    
+                    if (!settings.apiUrl) {
+                        throw new Error('请先设置API端点');
+                    }
+                    
+                    // 准备请求数据
+                    const requestData = {
+                        model: settings.model || 'gpt-3.5-turbo',
+                        messages: getConversationHistory(),
+                        stream: false
+                    };
+                    
+                    // 发送请求
+                    const response = await fetch(settings.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': settings.apiKey ? `Bearer ${settings.apiKey}` : undefined
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API请求失败: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    const aiResponse = data.choices[0].message.content;
+                    
+                    // 添加AI回复到聊天界面
+                    addMessage('ai', aiResponse);
+                } catch (error) {
+                    console.error('Error:', error);
+                    addMessage('ai', `错误: ${error.message}`);
+                } finally {
+                    // 隐藏正在输入指示器
+                    typingIndicator.style.display = 'none';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+            
+            // 添加消息到聊天界面
+            function addMessage(sender, text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                messageDiv.textContent = text;
+                chatMessages.insertBefore(messageDiv, typingIndicator);
+            }
+            
+            // 获取对话历史
+            function getConversationHistory() {
+                const messages = [];
+                const messageElements = document.querySelectorAll('.message');
+                
+                messageElements.forEach(el => {
+                    const sender = el.classList.contains('user-message') ? 'user' : 'assistant';
+                    messages.push({
+                        role: sender,
+                        content: el.textContent
+                    });
+                });
+                
+                return messages;
+            }
+        });
+    </script>
+</body>
+</html>

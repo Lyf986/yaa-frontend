@@ -1,3 +1,5 @@
+// 对话历史
+let conversationHistory = [{ role: 'system', content: '你叫“yaa”，接下来请你根据用户的指示进行回复。' }];
 // 设置事件监听器
 setupEventListeners();
 // 获取DOM元素
@@ -90,7 +92,7 @@ function setupEventListeners(){
                 sendMsg();
             }
         },
-        '#btn_scrollToBottom': () => scrollToBottom(),
+        '#btn__scrollToBottom': () => scrollToBottom(),
          '#sidebarCollapse':e=>{     //侧边栏切换按钮
             toggleSidebar();
             e.stopPropagation();
@@ -278,7 +280,7 @@ function show_btn_scrollToBottom(){
     // 获取对话框元素
     const contentDiv = document.getElementById('conversation__content');
     // 获取回到底部按钮
-    const btn_scrollToBottom = document.getElementById('btn_scrollToBottom');
+    const btn_scrollToBottom = document.getElementById('btn__scrollToBottom');
 
     // 滚动条至顶位置
     const scrollTop = contentDiv.scrollTop;
@@ -307,8 +309,6 @@ function toggleSidebar() {
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
 }
 
-let conversationHistory = [{ role: 'system', content: '你叫“yaa”，接下来请你根据用户的指示进行回复。' }];
-
 // 加载历史
 function loadHistory() {
     const savedHistory = localStorage.getItem('conversationHistory');
@@ -321,7 +321,7 @@ function loadHistory() {
 // 显示消息
 function displayMessages(messages) {
     const startIndex = messages.length > 0 && messages[0].role === 'system' ? 1 : 0;
-    messages.slice(startIndex).forEach(msg => appendMsg(msg.content, msg.role));
+    messages.slice(startIndex).forEach(msg => appendMsg(msg.role, msg.content));
 }
 
 // 添加消息到历史记录
@@ -357,15 +357,20 @@ function clearHistory() {
 }
 // 导入历史
 function importHistory() {
+    // 创建元素，类型为输入
     const input = document.createElement('input');
+    // 输入类型为文件
     input.type = 'file';
+    // 输入接受json类型文件
     input.accept = '.json';
+    // 输入发生改变时
     input.onchange = (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
           try {
+            // 将导入json的字符串转换为对象
             const importedHistory = JSON.parse(e.target.result);
             if (Array.isArray(importedHistory)) {
               conversationHistory = importedHistory;
@@ -375,6 +380,7 @@ function importHistory() {
               if (conversationHistory.length > 0 && conversationHistory[0].role === 'system') {
                 conversationHistory.slice(1).forEach(msg => appendMsg(msg.role, msg.content));
               } else {
+                // 逐条历史弹出
                 conversationHistory.forEach(msg => appendMsg(msg.role, msg.content));
               }
               localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
