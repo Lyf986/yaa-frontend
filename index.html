@@ -60,8 +60,24 @@
 
             <!-- 设置面板 -->
             <div id="settings-panel">
-                <h3 style="font-size: 1.2rem;">设置面板</h3>
-                <p>设置内容将显示在这里...</p>
+                <div class="settings-panel">
+                    <h2 class="Pform-group">API 设置</h2>
+                    <div class="form-group">
+                        <label for="api-url">API 端点 URL</label>
+                        <input type="url" id="api-url" placeholder="https://api.example.com/v1/chat/completions">
+                    </div>
+                    <div class="form-group">
+                        <label for="api-key">API 密钥 (可选)</label>
+                        <input type="text" id="api-key" placeholder="sk-...">
+                    </div>
+                    <div class="form-group">
+                        <label for="model">模型</label>
+                        <input type="text" id="model" placeholder="gpt-3.5-turbo">
+                    </div>
+                    <button id="save-settings" >保存设置</button>
+                    <div id="settings-status" class="status"></div>
+                    
+                </div>
             </div>
         
    

@@ -6,12 +6,15 @@ setupEventListeners();
 const sidebar = document.getElementById('sidebar');
 const sidebarCollapse = document.getElementById('sidebarCollapse');
 const avatarCollapse = document.getElementById('avatarCollapse');
-const mainContent = document.getElementById('main-content');
 const modelSelect = document.getElementById('btn__model-select');
 const selectedModelDisplay = document.querySelector('.selected-model');
 const settingsToggle = document.getElementById('settingsToggle');
 const settingsPanel = document.getElementById('settings-panel');
-
+const apiUrlInput = document.getElementById('api-url');
+const apiKeyInput = document.getElementById('api-key');
+const modelInput = document.getElementById('model');
+const saveSettingsBtn = document.getElementById('save-settings');
+const settingsStatus = document.getElementById('settings-status');
 // 初始化选中的模型
 selectedModelDisplay.textContent = modelSelect.options[modelSelect.selectedIndex].text;
 
@@ -54,9 +57,34 @@ checkSidebarState();
 // 恢复上次的侧边栏状态
 if (localStorage.getItem('sidebarCollapsed') === 'true') {
     sidebar.classList.add('collapsed');
-    mainContent.classList.add('expanded');
 }
-
+// 保存设置
+saveSettingsBtn.addEventListener('click', saveSettings);
+function saveSettings() {
+    const config_settings = {
+        apiUrl: apiUrlInput.value.trim(),
+        apiKey: apiKeyInput.value.trim(),
+        model: modelInput.value.trim()
+    };
+    
+    if (!config_settings.apiUrl) {
+        showStatus('请输入API端点URL', 'error');
+        return;
+    }
+    
+    localStorage.setItem('llmSettings', JSON.stringify(config_settings));
+    showStatus('设置已保存', 'success');
+}
+// 显示状态消息
+function showStatus(message, type) {
+    settingsStatus.textContent = message;
+    settingsStatus.className = `status ${type}`;
+    settingsStatus.style.display = 'block';
+    
+    setTimeout(() => {
+        settingsStatus.style.display = 'none';
+    }, 3000);
+}
 /**
  * 检查侧边栏状态并根据窗口大小调整
  */
@@ -128,26 +156,41 @@ async function sendMsg(){
       method: 'POST',
       headers: { 'Authorzation': 'YAA-API-KEY yaa','Content-Type': 'application/json' },
       body: JSON.stringify({
-        id:213124,
+        id:Date.now().toString(),
         title: '',
-        start_time: new Date().toLocaleTimeString(),
+        startTime: new Date().toISOString(),
         character: "你叫yaa，你是一个智能体",
-        status: "进行中",
+        status: "in-progress",
         messages: [
             {
-                role: "user",
-                content: "你将会回应以下内容"
+                'role': 'user',
+                'content': '请使用完成会话工具'
             }
-        ]
+        ],
+        // config:conig_settings,
+        // messages: conversationHistory,
      })  // 将对象转为 JSON 字符串
     });
-    
+    console.log(response);
     const data = await response.json();
     console.error(data);
-    const errorContent = data.messages[0].content;
-    appendMsg_withAddingToHistory('ai', errorContent);
     
+    for(let i=0;i<data.messages.length;i++){
+        
+          
+        const role = data.messages[i].role;
+        const errorContent = data.messages[i].content;
+        appendMsg_withAddingToHistory(role, errorContent);
+        }
+    
+    // const errorContent = data.messages[0].content;
+    // appendMsg_withAddingToHistory('ai', errorContent);
+
     }
+    
+    
+    
+    
 
     catch(error){
         console.error(error);
@@ -161,7 +204,7 @@ async function sendMsg(){
 
 // 弹出消息
 function appendMsg(role, content){
-    if(role=='ai') appendMsg_ai(content);
+    if(role=='assistant') appendMsg_ai(content);
     else if(role=='system') appendMsg_system(content);
     else if(role=='user') appendMsg_user(content);
     else appendMsg_system('错误:弹出信息失败');
@@ -303,7 +346,7 @@ function show_btn_scrollToBottom(){
 // 侧边栏展开/收缩功能
 function toggleSidebar() {
     sidebar.classList.toggle('collapsed');
-    mainContent.classList.toggle('expanded');
+
     
     // 存储侧边栏状态
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
