@@ -41,9 +41,7 @@
     overflow-y: auto;
     box-sizing: border-box;
 }
-#conversation:hover{
-    /* opacity: 0.5; */
-}
+
 #conversation__title{
     /* 对话标题 */
     padding: 0.5vh 1vw;
@@ -55,6 +53,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 #conversation__content{
     /* 对话内容 */
     display: flex;
@@ -87,7 +86,7 @@
     flex-direction: column;
     /* justify-content: space-between; */
     /* flex-wrap: wrap; */
-    /* width: 100%; */
+    width: 100%;
 }
 
 .msg__both{
@@ -251,11 +250,11 @@
 }
 
 .btn__msg-option{
-    width: fit-content;
+    position: relative;
     height: fit-content;
     padding: 5px 10px;
     border-radius: 5px;
-    margin: 0.5vh 0;
+    margin: 0.5vh 1vw;
 }
 
 .conversation__input__btns-area{

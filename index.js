@@ -110,14 +110,14 @@ function checkSidebarState() {
 // 事件监听器设置
 function setupEventListeners(){
     const elements = {
-        '#btn__sendMessage': () => sendMsg(),
+        '#btn__sendMessage': () => sendMsg_fromInput(),
         '#downloadHistory': () => downloadHistory(),
         '#clearHistory': () => clearHistory(),
         '#importHistory': () => importHistory(),
         '#conversation__input__textarea': e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                sendMsg();
+                sendMsg_fromInput();
             }
         },
         '#btn__scrollToBottom': () => scrollToBottom(),
@@ -139,19 +139,19 @@ function setupEventListeners(){
     });
 }
 // 发送消息
-async function sendMsg(){
-    // 引入元素：输入框
-    const msgInput = document.getElementById('conversation__input__textarea');
-    const msg = msgInput.value.trim();
-    
+async function sendMsg(msg){
     // 输入框为空时，返回
     if(!msg) return
-
+    
     // 弹出消息(包括将消息添加到历史)
     appendMsg_withAddingToHistory('user', msg);
 
+    // 对话框回到底部
+    scrollToBottom();
+
     // 发送请求
     try{
+
     const response = await fetch('http://127.0.0.1:12345', {
       method: 'POST',
       headers: { 'Authorzation': 'YAA-API-KEY yaa','Content-Type': 'application/json' },
@@ -195,11 +195,25 @@ async function sendMsg(){
     catch(error){
         console.error(error);
     }
+}
+
+// 从输入框发送消息
+function sendMsg_fromInput(){
+    // 引入元素：输入框
+    const msgInput = document.getElementById('conversation__input__textarea');
+    const msg = msgInput.value.trim();
+
+    const parsedmsg = parseTag(msg,'test');
+    sendMsg(parsedmsg);
 
     // 消息输入框置空
     msgInput.value = '';
+}
 
-    scrollToBottom();
+// 从选项发送消息
+function sendMsg_fromOption(button){
+    const content = button.innerHTML;
+    sendMsg(content);
 }
 
 // 弹出消息
@@ -223,12 +237,36 @@ function appendMsg_system(content){
     const conversation_content = document.getElementById('conversation__content');
     conversation_content.appendChild(generateMsg_system(content));
 }
+function appendMsg_system_withOption(content){
+    const conversation_content = document.getElementById('conversation__content');
+    conversation_content.appendChild(generateMsg_system(content));
+}
+
 // 生成系统消息
 function generateMsg_system(content){
     const msgDiv = document.createElement('div');
     msgDiv.className = "msg__system";
     msgDiv.innerHTML = content;
     return msgDiv
+}
+
+// 生成单一选项
+function generateMsg_option(id, content){
+    const optionDiv = document.createElement('button');
+    optionDiv.id = id;
+    optionDiv.className = "btn__msg-option btn_default";
+    optionDiv.innerHTML = content;
+    return optionDiv;
+}
+
+// 生成选项组
+function generateMsg_optionGroup(content){
+    const optionGroupDiv = document.createElement('button');
+    optionGroupDiv.className = "msg__option-group";
+    for(i = 0; i < content.length; i++){
+        optionGroupDiv.appendChild(generateMsg_option(i,content));
+    }
+    return optionGroupDiv;
 }
 
 // 弹出用户消息
@@ -439,3 +477,25 @@ function importHistory() {
     };
     input.click();
 }
+
+// 标签解析器
+function parseTag(content, tag){
+    // 创建解析器
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    // 指定标签
+    const tagSelector = doc.querySelector(tag);
+    if (tagSelector) {
+        return tagSelector.innerHTML
+    }
+    else return content
+}
+
+// 为所有消息选项添加监听器
+const optionGroup = document.querySelector('#conversation__content'); // 替换成你的父容器
+optionGroup.addEventListener('click', function(event) {
+  const button = event.target.closest('.btn__msg-option');
+  if (button) {
+    sendMsg_fromOption(button);
+  }
+});
