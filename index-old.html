@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- index.css -->
+        <link rel="stylesheet" href="css/index.css">
+        <!-- Boxicons CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+        <!-- bootstrap5.1.3 -->
+        <!-- <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
+        <!-- MaterialDesign-Webfont-6.5.95 -->
+        <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/MaterialDesign-Webfont/6.5.95/css/materialdesignicons.min.css">
+        <!-- Open Sans -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
+        <!-- Font Awesome 图标 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <title>Title</title>
+    </head>
+    <body>
+        <div class="container">
+            <!-- 侧边栏结构 -->
+            <div id="sidebar">
+                <!-- 顶部区域：头像和用户名 -->
+                <div class="sidebar-top">
+                    <div class="avatar-container">
+                        <img src="assets/yaa.svg" alt="模型名称" class="user-avatar" id="avatarCollapse">
+                        <div class="username">YAA</div>
+                    </div>
+                    <button class="toggle-btn" id="sidebarCollapse">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                </div>
+
+                <!-- 底部区域：模型选择和设置按钮 -->
+                <div class="sidebar-bottom">
+                    <!-- 模型选择区域 -->
+                    <div class="model-section">
+                        <span class="model-label">模型</span>
+                        <div class="model-select-container">
+                            <select class="model-select" id="btn__model-select">
+                                <option value="model1">Model 1</option>
+                                <option value="model2">Model 2</option>
+                                <option value="model3">Model 3</option>
+                            </select>
+                        </div>
+                        <div class="selected-model">Model 1</div>
+                    </div>
+
+                    <!-- 设置按钮 -->
+                    <div class="settings-section">
+                        <button class="settings-btn" id="settingsToggle">
+                            <i class="fas fa-cog"></i>
+                            <span>设置</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置面板 -->
+            <div id="settings-panel">
+                <div class="settings-panel">
+                    <h2 class="Pform-group">API 设置</h2>
+                    <div class="form-group">
+                        <label for="api-url">API 端点 URL</label>
+                        <input type="url" id="api-url" placeholder="https://api.example.com/v1/chat/completions">
+                    </div>
+                    <div class="form-group">
+                        <label for="api-key">API 密钥 (可选)</label>
+                        <input type="text" id="api-key" placeholder="sk-...">
+                    </div>
+                    <div class="form-group">
+                        <label for="model">模型</label>
+                        <input type="text" id="model" placeholder="gpt-3.5-turbo">
+                    </div>
+                    <button id="save-settings" >保存设置</button>
+                    <div id="settings-status" class="status"></div>
+                    
+                </div>
+            </div>
+        
+   
+    
+            <!-- 主体对话部分(右侧) -->
+            <div id="conversation">
+
+                <!-- 对话标题 -->
+                <div id="conversation__title">
+                    <span class="conversation__title__content">
+                        对话标题
+                    </span>
+                    <button id="downloadHistory" class="btn_default">保存历史</button>
+                    <button id="importHistory" class="btn_default">读取历史</button>
+                    <button id="clearHistory" class="btn_default">清空历史</button>
+                </div>
+
+                <!-- 回到底部按钮 -->
+                <button id="btn__scrollToBottom" class="btn_default">
+                    <i class="fa-solid fa-angle-down"></i>
+                </button>
+                
+                <!-- 对话内容 -->
+                <div id="conversation__content">
+
+                    <!-- 系统消息 -->
+                    <div class="msg__system">
+                        系统提示
+                        <div class="msg__option-group">
+                            <button id="opt1" class="btn__msg-option btn_default">选项1</button>
+                            <button id="opt2" class="btn__msg-option btn_default">选项2</button>
+                        </div>
+                    </div>
+
+                    <!-- ai消息 -->
+                    <div class="msg__both msg__ai">
+                        <!-- ai头像 -->
+                        <img class="msg__both__avatar msg__ai__avatar" src="assets/Byte-Tea.svg">
+                        <div class="msg__both__main msg__ai__main">
+                            <!-- ai名称 -->
+                            <div class="msg__both__main__name msg__ai__main__name">ai模型名称</div>
+                            <!-- ai消息内容 -->
+                            <div class="msg__both__main__content msg__ai__main__content" src="">
+                                ai消息 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam nesciunt necessitatibus omnis ipsum, inventore fuga sequi ex porro quae accusamus beatae praesentium a hic amet iure! Ad corporis explicabo aliquam.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 用户消息 -->
+                    <div class="msg__both msg__user">
+                        <!-- 用户头像 -->
+                        <img class="msg__both__avatar msg__user__avatar" src="assets/Byte-Tea.svg">
+                        <div class="msg__both__main msg__user__main">
+                            <!-- 用户名 -->
+                            <div class="msg__both__main__name msg__user__main__name">用户名</div>
+                            <!-- 用户消息内容 -->
+                            <div class="msg__both__main__content msg__user__main__content" src="">用户消息</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="conversation__input">
+
+                    <!-- 输入框 -->
+                    <input id="conversation__input__textarea" type="text" placeholder="输入消息……">
+                    
+                    <!-- 输入按钮区域 -->
+                    <div class="conversation__input__btns-area">
+                        <!-- 添加附件 -->
+                        <button class="btn_default btn__conversation__input__btns-area" id="btn__addAttachment" onclick="">
+                            <i class="fa-solid fa-paperclip "></i>
+                            <span class="btn__conversation__input__btns-area__text" id="btn__addAttachment__text">
+                                添加附件
+                            </span>
+                        </button>
+
+                        <!-- 发送消息 -->
+                        <button class="btn_default btn__conversation__input__btns-area" id="btn__sendMessage" onclick="">
+                            <i class="fa-regular fa-paper-plane"></i>
+                            <span class="btn__conversation__input__btns-area__text" id="btn__sendMessage__text">
+                                发送消息
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="js/index.js"></script>
+        <!-- JavaScript 库 -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    </body>
+</html>
